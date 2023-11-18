@@ -1,12 +1,17 @@
-package pl.edu.pk.hms.user.authentiation
+package pl.edu.pk.hms.users.authentiation
 
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.edu.pk.hms.config.JwtService
-import pl.edu.pk.hms.user.Role
-import pl.edu.pk.hms.user.User
-import pl.edu.pk.hms.user.UserRepository
+import pl.edu.pk.hms.users.Role
+import pl.edu.pk.hms.users.User
+import pl.edu.pk.hms.users.authentiation.api.AuthenticationRequest
+import pl.edu.pk.hms.users.authentiation.api.RegisterRequest
+import pl.edu.pk.hms.users.authentiation.dao.UserRepository
+
+const val NO_USER: String = "No user"
 
 @Service
 class AuthenticationService(
@@ -14,6 +19,10 @@ class AuthenticationService(
     private val userRepository: UserRepository,
     private val authenticationManager: AuthenticationManager
 ) {
+    fun getUsername(): String {
+        return SecurityContextHolder.getContext().authentication.name ?: NO_USER
+    }
+
     fun register(request: RegisterRequest): String {
         userRepository.findByEmail(request.email)
             .ifPresent { throw IllegalArgumentException("Email address already assigned to account.") }

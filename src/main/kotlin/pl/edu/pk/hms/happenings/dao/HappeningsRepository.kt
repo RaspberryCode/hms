@@ -1,4 +1,6 @@
-package pl.edu.pk.hms.happenings
+package pl.edu.pk.hms.happenings.dao
 
-interface HappeningsRepostiroy {
-}
+import org.springframework.data.jpa.repository.JpaRepository
+import pl.edu.pk.hms.happenings.Happening
+
+interface HappeningsRepository : JpaRepository<Happening, Long>

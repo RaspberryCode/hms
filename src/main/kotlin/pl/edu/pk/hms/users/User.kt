@@ -1,4 +1,4 @@
-package pl.edu.pk.hms.user
+package pl.edu.pk.hms.users
 
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
@@ -15,10 +15,10 @@ class User(
     var email: String,
     var phoneNumber: String,
     @Enumerated(EnumType.STRING)
-    var role: Role? = null
+    var role: Role
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority(role!!.name))
+        return mutableListOf(SimpleGrantedAuthority("ROLE_${role.name}"))
     }
 
     override fun getPassword(): String {
