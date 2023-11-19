@@ -36,13 +36,13 @@ object Versions {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt-api:${Versions.JJWT}")
     implementation("io.jsonwebtoken:jjwt-jackson:${Versions.JJWT}")
     implementation("io.jsonwebtoken:jjwt-impl:${Versions.JJWT}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${Versions.OPEN_API}")
-    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -64,6 +64,7 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:${Versions.KOTEST_TESTCONTAINERS}")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:${Versions.KOTEST_SPRING}")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:${Versions.KOTEST}")
+    testImplementation("io.kotest:kotest-extensions:${Versions.KOTEST}")
 
 }
 
