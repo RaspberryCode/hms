@@ -1,6 +1,11 @@
 package pl.edu.pk.hms.users
 
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -13,7 +18,7 @@ class User(
     var id: Long? = null,
     var _password: String,
     var email: String,
-    var phoneNumber: String,
+    var phoneNumber: String?,
     @Enumerated(EnumType.STRING)
     var role: Role
 ) : UserDetails {

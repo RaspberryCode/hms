@@ -4,32 +4,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
-import pl.edu.pk.hms.users.authentiation.api.AuthenticationRequest
-import pl.edu.pk.hms.users.authentiation.api.AuthenticationResponse
+import utils.AuthenticationApi
+import utils.IntegrationTest
+import utils.WebClient
 
-@Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SecurityIntegrationTest {
-
-    @Autowired
-    lateinit var restTemplate: TestRestTemplate
-
-    companion object {
-        @Container
-        @ServiceConnection
-        val postgres = PostgreSQLContainer<Nothing>("postgres:16.0-alpine")
-    }
-
+class SecurityIntegrationTest @Autowired constructor(val restTemplate: TestRestTemplate) : IntegrationTest() {
+    val authenticationApi: AuthenticationApi = AuthenticationApi(restTemplate)
+    val webClient: WebClient = WebClient(restTemplate)
     @Test
     fun `should not allow access to admin endpoint without token`() {
         // when
@@ -58,27 +40,10 @@ class SecurityIntegrationTest {
         endpoint: String
     ) {
         // when
-        val token = login(email, password)
-        val response = performGetOnEndpoint(token, endpoint)
+        val token = authenticationApi.login(email, password).body!!.token
+        val response = webClient.performGetOnEndpoint(token, endpoint)
 
         // then
         assert(response.statusCode.is2xxSuccessful)
     }
-
-    private fun performGetOnEndpoint(
-        token: String?,
-        endpoint: String
-    ): ResponseEntity<String> {
-        val headers = HttpHeaders()
-        headers.set(HttpHeaders.AUTHORIZATION, "Bearer $token")
-        val entity = HttpEntity<String>(headers)
-        return restTemplate.exchange(endpoint, HttpMethod.GET, entity, String::class.java)
-    }
-
-    private fun login(email: String, password: String): String =
-        restTemplate.postForEntity(
-            "/api/login",
-            AuthenticationRequest(email, password),
-            AuthenticationResponse::class.java
-        ).body!!.token
 }
