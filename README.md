@@ -4,7 +4,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
+[![CI](https://github.com/RaspberryCode/hms/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/RaspberryCode/hms/actions/workflows/ci.yml)
 
 
 <!-- PROJECT LOGO -->
