@@ -4,7 +4,13 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
 [![CI](https://github.com/RaspberryCode/hms/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/RaspberryCode/hms/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
 
 
 <!-- PROJECT LOGO -->
