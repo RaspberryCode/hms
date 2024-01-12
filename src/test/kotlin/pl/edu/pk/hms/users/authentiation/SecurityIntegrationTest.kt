@@ -1,31 +1,39 @@
 package pl.edu.pk.hms.users.authentiation
 
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.web.client.TestRestTemplate
-import utils.AuthenticationApi
+import org.springframework.context.annotation.Import
+import org.springframework.web.client.RestClient
 import utils.IntegrationTest
+import utils.SecurityIntegrationTestConfiguration
 import utils.WebClient
 
-class SecurityIntegrationTest @Autowired constructor(val restTemplate: TestRestTemplate) : IntegrationTest() {
-    val authenticationApi: AuthenticationApi = AuthenticationApi(restTemplate)
-    val webClient: WebClient = WebClient(restTemplate)
+@Import(SecurityIntegrationTestConfiguration::class)
+class SecurityIntegrationTest(@Autowired val restClient: RestClient) : IntegrationTest() {
+
+    val webClient = WebClient(restClient)
+
     @Test
     fun `should not allow access to admin endpoint without token`() {
         // when
-        val response = restTemplate.getForEntity("/admin-endpoint", String::class.java)
+        val response = restClient.get()
+            .uri("/admin-endpoint")
+            .exchange { _, response -> response }
         // then
-        assert(response.statusCode.is4xxClientError)
+        assertTrue(response.statusCode.is4xxClientError)
     }
 
     @Test
     fun `should not allow access to user endpoint without token`() {
         // when
-        val response = restTemplate.getForEntity("/user-endpoint", String::class.java)
+        val response = restClient.get()
+            .uri("/user-endpoint")
+            .exchange { _, response -> response }
         // then
-        assert(response.statusCode.is4xxClientError)
+        assertTrue(response.statusCode.is4xxClientError)
     }
 
     @ParameterizedTest(name = "should allow access to {3} endpoint with {4} token")
@@ -39,11 +47,12 @@ class SecurityIntegrationTest @Autowired constructor(val restTemplate: TestRestT
         password: String,
         endpoint: String
     ) {
-        // when
-        val token = authenticationApi.login(email, password).body!!.token
-        val response = webClient.performGetOnEndpoint(token, endpoint)
+        webClient.asAuthenticatedUser(email, password) { token ->
+            // when
+            val response = webClient.get(token, endpoint, String::class.java)
 
-        // then
-        assert(response.statusCode.is2xxSuccessful)
+            // then
+            assertNotNull(response)
+        }
     }
 }

@@ -4,13 +4,14 @@ package pl.edu.pk.hms.users.authentiation.api
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
+import org.springframework.web.client.RestClient
 import utils.AuthenticationApi
 import utils.IntegrationTest
 
-class AuthenticationControllerTest @Autowired constructor(restTemplate: TestRestTemplate) : IntegrationTest() {
-    val authenticationApi: AuthenticationApi = AuthenticationApi(restTemplate)
+class AuthenticationControllerTest(@Autowired restClient: RestClient) : IntegrationTest() {
+
+    val authenticationApi = AuthenticationApi(restClient)
 
     @Test
     fun `should register user`() {

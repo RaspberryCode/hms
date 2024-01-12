@@ -2,6 +2,7 @@ package pl.edu.pk.hms.users.authentiation.api
 
 import jakarta.validation.Validation
 import jakarta.validation.Validator
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -24,7 +25,7 @@ class RegisterRequestTest {
         val violations = validator.validate(registerRequest)
 
         //then
-        assert(violations.isEmpty())
+        assertTrue(violations.isEmpty())
     }
 
     @ParameterizedTest
@@ -39,7 +40,7 @@ class RegisterRequestTest {
         val violations = validator.validate(registerRequest)
 
         //then
-        assert(violations.isNotEmpty()) { "Expected violations of validation but was empty" }
+        assertTrue(violations.isNotEmpty(), "Expected violations of validation but was empty")
     }
 
     companion object {

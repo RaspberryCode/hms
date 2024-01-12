@@ -2,19 +2,22 @@ package utils
 
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 
 
-@ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(RestClientConfig::class)
+@ActiveProfiles("integration")
 abstract class IntegrationTest {
+
     companion object {
-        //        @JvmStatic
+        @JvmStatic
         @Container
         @ServiceConnection
-        protected val postgres: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:latest")
+        protected val postgres: PostgreSQLContainer<Nothing> = PostgreSQLContainer("postgres:latest")
 
         init {
             postgres.start()

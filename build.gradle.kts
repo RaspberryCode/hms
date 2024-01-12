@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.4"
-    id("io.spring.dependency-management") version "1.1.3"
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
-    kotlin("plugin.jpa") version "1.8.22"
+    id("org.springframework.boot") version "3.2.1"
+    id("io.spring.dependency-management") version "1.1.4"
+    kotlin("jvm") version "1.9.21"
+    kotlin("plugin.spring") version "1.9.21"
+    kotlin("plugin.jpa") version "1.9.21"
 }
 
 group = "pl.edu.pk"
@@ -28,9 +28,6 @@ repositories {
 object Versions {
     const val JJWT = "0.12.2"
     const val OPEN_API = "2.2.0"
-    const val KOTEST = "5.8.0"
-    const val KOTEST_SPRING = "1.1.3"
-    const val KOTEST_TESTCONTAINERS = "2.0.2"
 }
 
 dependencies {
@@ -61,11 +58,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:${Versions.KOTEST_TESTCONTAINERS}")
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:${Versions.KOTEST_SPRING}")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:${Versions.KOTEST}")
-    testImplementation("io.kotest:kotest-extensions:${Versions.KOTEST}")
-
 }
 
 tasks.withType<KotlinCompile> {

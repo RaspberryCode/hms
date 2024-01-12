@@ -1,4 +1,4 @@
-package pl.edu.pk.hms.users.authentiation
+package utils
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.ResponseEntity

@@ -5,7 +5,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 import pl.edu.pk.hms.users.authentiation.AuthenticationService
 
 @RestController
@@ -43,4 +47,18 @@ class AuthenticationController(
             token = authenticationService.login(request)
         )
     }
+
+//    TODO
+//    https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
+//    @PostMapping("reset-password/{token}")
+//    @Operation(
+//        summary = "Reset password",
+//        responses = [
+//            ApiResponse(responseCode = "200", description = "Password reset"),
+//            ApiResponse(responseCode = "400", description = "Invalid request")
+//        ]
+//    )
+//    fun resetPassword(){
+//
+//    }
 }
