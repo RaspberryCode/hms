@@ -3,12 +3,20 @@ package pl.edu.pk.hms.happenings.api
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.pk.hms.happenings.Happening
 import pl.edu.pk.hms.happenings.HappeningsManagementService
 import pl.edu.pk.hms.happenings.HappeningsReadService
+import pl.edu.pk.hms.happenings.api.dto.CreateHappeningRequest
 import pl.edu.pk.hms.users.authentiation.annotations.IsAdmin
 import pl.edu.pk.hms.users.authentiation.annotations.IsUser
 
@@ -19,6 +27,7 @@ class HappeningsController(
     val happeningsReadService: HappeningsReadService,
     val happeningsManagementService: HappeningsManagementService
 ) {
+
     @GetMapping
     @IsUser
     @Operation(
@@ -28,7 +37,9 @@ class HappeningsController(
             ApiResponse(responseCode = "401", description = "Only allowed for authenticated users")
         ]
     )
-    fun findAll(): List<Happening> = happeningsReadService.findAll()
+    fun findAll(pageable: Pageable): Page<Happening> =
+        happeningsReadService.findAll(pageable)
+
 
     @GetMapping("/{id}")
     @IsUser
@@ -54,5 +65,4 @@ class HappeningsController(
         ]
     )
     fun create(request: CreateHappeningRequest): Happening = happeningsManagementService.create(request.toDomain())
-
 }

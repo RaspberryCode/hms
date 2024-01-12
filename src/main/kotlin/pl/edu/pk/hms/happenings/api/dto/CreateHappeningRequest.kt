@@ -1,4 +1,4 @@
-package pl.edu.pk.hms.happenings.api
+package pl.edu.pk.hms.happenings.api.dto
 
 import jakarta.validation.constraints.Size
 import pl.edu.pk.hms.happenings.District
