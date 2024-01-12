@@ -9,7 +9,8 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=coverage)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=RaspberryCode_hms&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=RaspberryCode_hms)
 
 
@@ -205,7 +206,7 @@ To get a local copy up and running follow these simple example steps.
     - [x] Add docker-compose
     - [x] Add container building manifest - not needed using buildpack
     - [x] Add CI/CD manifest
-    - [ ] Add Code Coverage tool
+  - [x] Add Code Coverage tool
     - [ ] Add terraform
 
 See the [open issues](https://github.com/RaspberryCode/hms/issues) for a full list of proposed features (and
