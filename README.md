@@ -194,11 +194,12 @@ To get a local copy up and running follow these simple example steps.
         - [ ] Add email notifications
         - [ ] Add push notifications
         - [ ] Add SMS notifications
-    - [ ] Users can mark that they are interested in happening
+    - [x] Users can mark that they are interested in happening
 - [ ] Prepare for cloud deployment
     - [x] Add docker-compose
-    - [ ] Add container building manifest
-    - [ ] Add CI/CD manifest
+    - [x] Add container building manifest - not needed using buildpack
+    - [x] Add CI/CD manifest
+    - [ ] Add Code Coverage tool
     - [ ] Add terraform
 
 See the [open issues](https://github.com/RaspberryCode/hms/issues) for a full list of proposed features (and
