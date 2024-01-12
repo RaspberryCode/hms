@@ -45,7 +45,9 @@ class SecurityIntegrationTest(@Autowired val restClient: RestClient) : Integrati
     fun `should allow access to admin endpoint with admin token`(
         email: String,
         password: String,
-        endpoint: String
+        endpoint: String,
+        endpointForUser: String,
+        tokenForUser: String
     ) {
         webClient.asAuthenticatedUser(email, password) { token ->
             // when

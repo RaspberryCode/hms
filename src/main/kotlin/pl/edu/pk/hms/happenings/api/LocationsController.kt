@@ -24,6 +24,6 @@ class LocationsController {
         ]
     )
     fun getAvailableLocations(): List<String> {
-        return District.values().map { it.name }
+        return District.entries.map { it.name }
     }
 }
