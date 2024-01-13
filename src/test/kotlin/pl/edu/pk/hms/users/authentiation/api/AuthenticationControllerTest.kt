@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.RestClient
-import utils.AuthenticationApi
-import utils.IntegrationTest
+import testutils.AuthenticationApi
+import testutils.IntegrationTest
 
 class AuthenticationControllerTest(@Autowired restClient: RestClient) : IntegrationTest() {
 

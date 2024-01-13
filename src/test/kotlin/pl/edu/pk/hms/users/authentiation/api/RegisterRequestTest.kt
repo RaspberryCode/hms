@@ -16,7 +16,12 @@ class RegisterRequestTest {
 
     @ParameterizedTest
     @MethodSource("successfulRequestCreationParameters")
-    fun `should create registration request when {3}`(email: String, password: String, phoneNumber: String?) {
+    fun `should create registration request when {3}`(
+        email: String,
+        password: String,
+        phoneNumber: String?,
+        condition: String
+    ) {
         //given
         val registerRequest = RegisterRequest(email, password, phoneNumber)
         val validator: Validator = Validation.buildDefaultValidatorFactory().validator

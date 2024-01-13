@@ -1,4 +1,4 @@
-package utils
+package testutils
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.TestConfiguration
@@ -8,8 +8,7 @@ import org.springframework.web.client.RestClient
 
 @Lazy
 @TestConfiguration
-class RestClientConfig {
-
+class TestConfig {
     @Bean
     fun restClient(@Value("\${local.server.port}") port: Int): RestClient {
         return RestClient.builder()

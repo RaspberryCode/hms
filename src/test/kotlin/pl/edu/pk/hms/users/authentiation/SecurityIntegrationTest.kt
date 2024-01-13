@@ -7,14 +7,15 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Import
 import org.springframework.web.client.RestClient
-import utils.IntegrationTest
-import utils.SecurityIntegrationTestConfiguration
-import utils.WebClient
+import testutils.IntegrationTest
+import testutils.SecurityIntegrationTestConfiguration
+import testutils.WebClient
 
 @Import(SecurityIntegrationTestConfiguration::class)
-class SecurityIntegrationTest(@Autowired val restClient: RestClient) : IntegrationTest() {
-
-    val webClient = WebClient(restClient)
+class SecurityIntegrationTest(
+    @Autowired val restClient: RestClient,
+    @Autowired val webClient: WebClient
+) : IntegrationTest() {
 
     @Test
     fun `should not allow access to admin endpoint without token`() {

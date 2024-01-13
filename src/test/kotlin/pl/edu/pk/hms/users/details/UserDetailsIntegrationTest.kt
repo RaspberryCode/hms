@@ -4,38 +4,25 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.web.client.RestClient
-import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
-import pl.edu.pk.hms.users.authentiation.dao.UserRepository
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsPatchRequest
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsResponse
-import utils.IntegrationTest
-import utils.WebClient
+import testutils.IntegrationTest
+import testutils.WebClient
 
 
 class UserDetailsIntegrationTest(
-    @Autowired val userRepository: UserRepository,
-    @Autowired passwordEncoder: PasswordEncoder,
-    @Autowired restClient: RestClient
+    @Autowired val webClient: WebClient
 ) : IntegrationTest() {
 
-    val webClient: WebClient = WebClient(restClient)
-
-    private final var password = "password"
-    var user =
-        User(
-            email = "user@user.com",
-            _password = passwordEncoder.encode(password),
-            phoneNumber = "+48987654321",
-            role = Role.USER
-        )
+    lateinit var userWithPassword: Pair<User, String>
+    val user by lazy { userWithPassword.first }
+    val password by lazy { userWithPassword.second }
 
     @BeforeEach
     fun setUp() {
-        userRepository.deleteAll()
-        user = userRepository.save(user)
+        webClient.removeAllUsers()
+        userWithPassword = webClient.createUser()
     }
 
     @Test

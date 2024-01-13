@@ -1,4 +1,4 @@
-package utils
+package testutils
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.ResponseEntity

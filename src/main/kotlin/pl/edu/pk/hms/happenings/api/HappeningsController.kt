@@ -3,12 +3,15 @@ package pl.edu.pk.hms.happenings.api
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -17,6 +20,7 @@ import pl.edu.pk.hms.happenings.Happening
 import pl.edu.pk.hms.happenings.HappeningsManagementService
 import pl.edu.pk.hms.happenings.HappeningsReadService
 import pl.edu.pk.hms.happenings.api.dto.CreateHappeningRequest
+import pl.edu.pk.hms.happenings.api.dto.HappeningResponse
 import pl.edu.pk.hms.users.authentiation.annotations.IsAdmin
 import pl.edu.pk.hms.users.authentiation.annotations.IsUser
 
@@ -31,14 +35,15 @@ class HappeningsController(
     @GetMapping
     @IsUser
     @Operation(
-        summary = "Get all happenings",
+        summary = "Get happenings paginated",
         responses = [
             ApiResponse(responseCode = "200", description = "Happenings found"),
             ApiResponse(responseCode = "401", description = "Only allowed for authenticated users")
         ]
     )
-    fun findAll(pageable: Pageable): Page<Happening> =
+    fun findAll(pageable: Pageable): Page<HappeningResponse> =
         happeningsReadService.findAll(pageable)
+            .map { HappeningResponse(it) }
 
 
     @GetMapping("/{id}")
@@ -64,5 +69,20 @@ class HappeningsController(
             ApiResponse(responseCode = "401", description = "Only allowed for admins")
         ]
     )
-    fun create(request: CreateHappeningRequest): Happening = happeningsManagementService.create(request.toDomain())
+    fun create(@RequestBody @Valid request: CreateHappeningRequest): Happening =
+        happeningsManagementService.create(request.toDomain())
+
+    @PutMapping("/{id}")
+    @IsAdmin
+    @ResponseStatus(code = HttpStatus.OK)
+    @Operation(
+        summary = "Update happening",
+        responses = [
+            ApiResponse(responseCode = "200", description = "Happening updated"),
+            ApiResponse(responseCode = "401", description = "Only allowed for admins")
+        ]
+    )
+    fun update(@RequestBody @Valid request: CreateHappeningRequest, @PathVariable id: Long): Happening {
+        return happeningsManagementService.update(id, request.toDomain())
+    }
 }

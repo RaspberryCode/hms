@@ -15,4 +15,19 @@ class HappeningsManagementService(
         logger.info("Creating happening: $happening by ${authenticationService.getUsername()}")
         return happeningsRepository.save(happening)
     }
+
+    fun update(id: Long, happening: Happening): Happening {
+        val originalHappening = happeningsRepository.findById(id)
+            .orElseThrow { RuntimeException("Happening with id ${happening.name} not found") }
+
+        logger.info("Updating happening: ${originalHappening.id} by ${authenticationService.getUsername()}")
+
+        return originalHappening.apply {
+            name = happening.name
+            district = happening.district
+            description = happening.description
+        }.let {
+            happeningsRepository.save(it)
+        }
+    }
 }
