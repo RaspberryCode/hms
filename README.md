@@ -189,14 +189,14 @@ To get a local copy up and running follow these simple example steps.
 - [x] Create security skeleton
 - [x] Admin panel
     - [x] Admin can add happening
-    - [ ] Admin can modify happening - triggers Users notification
+  - [x] Admin can modify happening - triggers Users notification
 - [ ] Users functionalities
     - [x] Users can register new account
         - [ ] Forgot password functionality
     - [ ] Users can modify their account preferences and details
     - [x] Read REST API for happenings
-        - [ ] Add pagination
-        - [ ] Add filtering
+        - [x] Add pagination
+        - [x] Add filtering
     - [ ] Users are notified about upcoming happenings
         - [ ] Add email notifications
         - [ ] Add push notifications
