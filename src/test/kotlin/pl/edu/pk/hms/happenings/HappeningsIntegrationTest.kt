@@ -47,7 +47,7 @@ class HappeningsIntegrationTest(
         val (user, userPassword) = webClient.createUser()
         val responseTypeRef = object : ParameterizedTypeReference<PaginatedResponse<HappeningResponse>>() {}
         // when
-        webClient.asAuthenticatedUser(user.email, userPassword) { token ->
+        webClient.asAuthenticatedUser(user.username, userPassword) { token ->
             val response =
                 webClient.get(token, "/api/happenings", responseTypeRef)
             // then
@@ -62,7 +62,7 @@ class HappeningsIntegrationTest(
         val (user, userPassword) = webClient.createUser()
         val happening = happeningsRepository.findAll().first()
         // when
-        webClient.asAuthenticatedUser(user.email, userPassword) { token ->
+        webClient.asAuthenticatedUser(user.username, userPassword) { token ->
             val response =
                 webClient.get(token, "/api/happenings/${happening.id}", HappeningResponse::class.java)
             // then
@@ -83,7 +83,7 @@ class HappeningsIntegrationTest(
             description = "Description 4"
         )
         // when
-        webClient.asAuthenticatedUser(user.email, userPassword) { token ->
+        webClient.asAuthenticatedUser(user.username, userPassword) { token ->
             val response =
                 webClient.post(token, "/api/happenings", newHappening, HappeningResponse::class.java)
             // then
@@ -106,7 +106,7 @@ class HappeningsIntegrationTest(
             description = "Description 4"
         )
         // when
-        webClient.asAuthenticatedUser(user.email, userPassword) { token ->
+        webClient.asAuthenticatedUser(user.username, userPassword) { token ->
             val response =
                 webClient.put(token, "/api/happenings/${happening.id}", updatedHappening, HappeningResponse::class.java)
             // then

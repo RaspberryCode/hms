@@ -15,5 +15,5 @@ data class UserDetailsPatchRequest(
     )
     val phoneNumber: String?,
     @NotNull(message = "Notifications preferences cannot be null")
-    val notificationsPreferences: NotificationsPreferencesDto
+    val notificationsPreferences: UserPreferencesDto
 )

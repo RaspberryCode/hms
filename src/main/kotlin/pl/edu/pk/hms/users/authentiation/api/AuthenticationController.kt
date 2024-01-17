@@ -32,8 +32,14 @@ class AuthenticationController(
         ]
     )
     fun register(@RequestBody @Valid request: RegisterRequest): AuthenticationResponse {
+        val notificationsPreferences = request.notificationsPreferences?.toDomain()
         return AuthenticationResponse(
-            token = authenticationService.register(request)
+            token = authenticationService.register(
+                email = request.email,
+                password = request.password,
+                phoneNumber = request.phoneNumber,
+                userPreferences = notificationsPreferences
+            )
         )
     }
 

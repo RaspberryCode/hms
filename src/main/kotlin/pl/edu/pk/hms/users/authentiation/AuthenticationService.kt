@@ -9,8 +9,9 @@ import pl.edu.pk.hms.config.JwtService
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationRequest
-import pl.edu.pk.hms.users.authentiation.api.dto.RegisterRequest
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
+import pl.edu.pk.hms.users.details.dao.UserPreferences
+import pl.edu.pk.hms.users.details.dao.UserProfile
 
 const val NO_USER: String = "No user"
 
@@ -25,15 +26,28 @@ class AuthenticationService(
         return SecurityContextHolder.getContext().authentication.name ?: NO_USER
     }
 
-    fun register(request: RegisterRequest): String {
-        userRepository.findByEmail(request.email)
-            .ifPresent { throw IllegalArgumentException("Email address already assigned to account.") }
+    fun register(
+        email: String,
+        password: String,
+        phoneNumber: String?,
+        userPreferences: UserPreferences?
+    ): String {
+        require(!userRepository.existsByProfile_Email(email)) {
+            throw IllegalArgumentException("Email address already assigned to account.")
+        }
+
         val user = User(
-            email = request.email,
-            _password = passwordEncoder.encode(request.password),
-            phoneNumber = request.phoneNumber,
-            role = Role.USER
+            encryptedPassword = passwordEncoder.encode(password),
+            role = Role.USER,
+            profile = null
         )
+        val userProfile = UserProfile(
+            email = email,
+            phoneNumber = phoneNumber,
+            preferences = userPreferences ?: UserPreferences(),
+            user = user
+        )
+        user.profile = userProfile
         userRepository.save(user)
         return jwtService.generate(user)
     }
@@ -45,7 +59,7 @@ class AuthenticationService(
                 request.password
             )
         )
-        val user = userRepository.findByEmail(request.email)
+        val user = userRepository.findUserByProfile_Email(request.email)
             .orElseThrow { IllegalArgumentException("Invalid email or password.") }
         return jwtService.generate(user)
     }

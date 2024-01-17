@@ -1,18 +1,18 @@
 package pl.edu.pk.hms.users.details.api.dto
 
-import pl.edu.pk.hms.users.details.dao.UserDetails
+import pl.edu.pk.hms.users.details.dao.UserProfile
 
 data class UserDetailsResponse(
     var email: String,
     var phoneNumber: String?,
-    val notificationsPreferences: NotificationsPreferencesDto
+    val preferences: UserPreferencesDto
 ) {
     companion object {
-        fun fromDomain(userDetails: UserDetails): UserDetailsResponse {
+        fun fromDomain(userProfile: UserProfile): UserDetailsResponse {
             return UserDetailsResponse(
-                userDetails.email,
-                userDetails.phoneNumber,
-                NotificationsPreferencesDto.fromDomain(userDetails.notificationsPreferences)
+                userProfile.email,
+                userProfile.phoneNumber,
+                UserPreferencesDto.fromDomain(userProfile.preferences)
             )
         }
     }

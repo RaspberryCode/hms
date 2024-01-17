@@ -54,7 +54,7 @@ class UserDetailsController(private val userDetailsPatchService: UserDetailsPatc
         authentication: Authentication
     ): ResponseEntity<UserDetailsResponse> {
         val user = authentication.principal as User
-        val userId = checkNotNull(user.id) { "Problem with granting access to user details"}
+        val userId = checkNotNull(user.id) { "Problem with granting access to user details" }
 
         val updateUserDetails = userDetailsPatchService.updateUserDetails(
             userId, request.phoneNumber, request.email, request.notificationsPreferences

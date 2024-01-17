@@ -13,7 +13,7 @@ group = "pl.edu.pk"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 jacoco {
@@ -80,7 +80,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
@@ -94,4 +94,15 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
+            limit {
+                minimum = "0.90".toBigDecimal()
+            }
+        }
+    }
 }

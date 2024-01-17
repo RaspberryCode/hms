@@ -15,16 +15,16 @@ private const val VALID_PHONE_NUMBER = "+48123456789"
 
 class RegisterRequestTest {
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{3}")
     @MethodSource("successfulRequestCreationParameters")
-    fun `should create registration request when {3}`(
+    fun `should pass validation when `(
         email: String,
         password: String,
         phoneNumber: String?,
         condition: String
     ) {
         //given
-        val registerRequest = RegisterRequest(email, password, phoneNumber)
+        val registerRequest = RegisterRequest(email, password, phoneNumber, null)
         val validator: Validator = Validation.buildDefaultValidatorFactory().validator
 
         //when
@@ -34,13 +34,18 @@ class RegisterRequestTest {
         assertTrue(violations.isEmpty())
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{3}")
     @MethodSource("failedRequestCreationParameters")
-    fun `should throw error when {3}`(email: String, password: String, phoneNumber: String?) {
+    fun `should fail validation when `(
+        email: String,
+        password: String,
+        phoneNumber: String?,
+        condition: String
+    ) {
         //given
         val factory = Validation.buildDefaultValidatorFactory()
-        val validator = factory.getValidator()
-        val registerRequest = RegisterRequest(email, password, phoneNumber)
+        val validator = factory.validator
+        val registerRequest = RegisterRequest(email, password, phoneNumber, null)
 
         //when
         val violations = validator.validate(registerRequest)
@@ -51,15 +56,17 @@ class RegisterRequestTest {
 
     companion object {
         @JvmStatic
-        fun successfulRequestCreationParameters(): List<Arguments> = listOf(
-            Arguments.of(VALID_EMAIL, VALID_PASSWORD, VALID_PHONE_NUMBER, "password and phone number, valid email"),
-            Arguments.of(VALID_EMAIL, VALID_PASSWORD, null, "when empty phone number"),
-        )
+        fun successfulRequestCreationParameters(): List<Arguments> =
+            listOf(
+                Arguments.of(VALID_EMAIL, VALID_PASSWORD, VALID_PHONE_NUMBER, "valid password, phone number and email"),
+                Arguments.of(VALID_EMAIL, VALID_PASSWORD, null, "empty phone number"),
+            )
 
         @JvmStatic
-        fun failedRequestCreationParameters(): List<Arguments> = listOf(
-            Arguments.of(VALID_EMAIL, "", null, "empty password"),
-            Arguments.of("", VALID_PASSWORD, null, "empty email")
-        )
+        fun failedRequestCreationParameters(): List<Arguments> =
+            listOf(
+                Arguments.of(VALID_EMAIL, "", null, "empty password"),
+                Arguments.of("", VALID_PASSWORD, null, "empty email")
+            )
     }
 }

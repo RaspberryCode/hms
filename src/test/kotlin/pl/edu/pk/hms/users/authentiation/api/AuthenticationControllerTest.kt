@@ -11,7 +11,7 @@ import testutils.IntegrationTest
 
 class AuthenticationControllerTest(@Autowired restClient: RestClient) : IntegrationTest() {
 
-    val authenticationApi = AuthenticationApi(restClient)
+    private val authenticationApi = AuthenticationApi(restClient)
 
     @Test
     fun `should register user`() {
