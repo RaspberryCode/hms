@@ -40,6 +40,8 @@ repositories {
 object Versions {
     const val JJWT = "0.12.2"
     const val OPEN_API = "2.2.0"
+    const val MOCKITO = "5.8.0"
+    const val MOCKITO_KOTLIN = "5.2.1"
 }
 
 dependencies {
@@ -70,6 +72,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.mockito:mockito-core:${Versions.MOCKITO}")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${Versions.MOCKITO_KOTLIN}")
+
 }
 
 tasks.withType<KotlinCompile> {
