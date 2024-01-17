@@ -13,7 +13,7 @@ group = "pl.edu.pk"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 jacoco {
@@ -40,6 +40,8 @@ repositories {
 object Versions {
     const val JJWT = "0.12.2"
     const val OPEN_API = "2.2.0"
+    const val MOCKITO = "5.8.0"
+    const val MOCKITO_KOTLIN = "5.2.1"
 }
 
 dependencies {
@@ -70,12 +72,15 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.mockito:mockito-core:${Versions.MOCKITO}")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${Versions.MOCKITO_KOTLIN}")
+
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
@@ -89,4 +94,15 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
+            limit {
+                minimum = "0.90".toBigDecimal()
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package pl.edu.pk.hms.users.authentiation.api
+package pl.edu.pk.hms.users.authentiation.api.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import pl.edu.pk.hms.users.details.api.dto.UserPreferencesDto
 
 data class RegisterRequest(
     @field:NotNull(message = "Email cannot be null")
@@ -21,4 +22,5 @@ data class RegisterRequest(
         message = "Phone number should be valid and contain country code (e.g. +48 for Poland)"
     )
     val phoneNumber: String?,
+    val notificationsPreferences: UserPreferencesDto?
 )

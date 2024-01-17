@@ -11,13 +11,17 @@ import org.springframework.web.client.RestClient
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
+import pl.edu.pk.hms.users.details.dao.UserPreferences
+import pl.edu.pk.hms.users.details.dao.UserProfile
+import pl.edu.pk.hms.users.details.dao.UserDetailsRepository
 
 @Lazy
 @Component
 class WebClient(
     @Autowired val restClient: RestClient,
     @Autowired val passwordEncoder: PasswordEncoder,
-    @Autowired val userRepository: UserRepository
+    @Autowired val userRepository: UserRepository,
+    @Autowired val userDetailsRepository: UserDetailsRepository
 ) {
 
     private val authenticationApi = AuthenticationApi(restClient)
@@ -29,14 +33,19 @@ class WebClient(
     fun createUser(role: Role = Role.USER): Pair<User, String> {
         val password = "password"
         val userName = role.name.lowercase()
-        val user = userRepository.save(
-            User(
-                email = "$userName@$userName.com",
-                _password = passwordEncoder.encode(password),
-                phoneNumber = "+48987654321",
-                role = role
-            )
+        var user = User(
+            encryptedPassword = passwordEncoder.encode(password),
+            role = role,
+            profile = null
         )
+        val userProfile = UserProfile(
+            user = user,
+            phoneNumber = "123456789",
+            email = "$userName@$userName.com",
+            preferences = UserPreferences()
+        )
+        user.profile = userProfile
+        user = userRepository.save(user)
         return Pair(user, password)
     }
 
@@ -107,17 +116,17 @@ class WebClient(
     }
 
     fun asAuthenticatedUser(
-        email: String,
+        login: String,
         password: String,
         action: (String) -> Any
     ): Any {
-        val token: String = login(email, password)
+        val token: String = login(login, password)
         return action(token)
     }
 
-    private fun login(email: String, password: String): String {
-        val loginResponse = authenticationApi.login(email, password)
-        if(loginResponse.statusCode.isError || loginResponse.body == null)
+    private fun login(login: String, password: String): String {
+        val loginResponse = authenticationApi.login(login, password)
+        if (loginResponse.statusCode.isError || loginResponse.body == null)
             throw Exception("Login failed")
         return loginResponse.body!!.token
     }

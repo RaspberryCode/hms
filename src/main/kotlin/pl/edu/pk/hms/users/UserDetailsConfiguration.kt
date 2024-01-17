@@ -11,7 +11,7 @@ class UserDetailsConfiguration(private val userRepository: UserRepository) {
     @Bean
     fun userDetailsService(): UserDetailsService {
         return UserDetailsService { username: String? ->
-            userRepository.findByEmail(username!!)
+            userRepository.findUserByProfile_Email(username!!)
                 .orElseThrow { UsernameNotFoundException("User not found") }
         }
     }
