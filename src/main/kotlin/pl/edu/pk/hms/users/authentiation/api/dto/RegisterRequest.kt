@@ -1,4 +1,4 @@
-package pl.edu.pk.hms.users.authentiation.api
+package pl.edu.pk.hms.users.authentiation.api.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank

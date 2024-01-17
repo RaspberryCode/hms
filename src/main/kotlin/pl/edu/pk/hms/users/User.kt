@@ -18,6 +18,7 @@ class User(
     var id: Long? = null,
     var _password: String,
     var email: String,
+//    TODO Remove phoneNumber from User
     var phoneNumber: String?,
     @Enumerated(EnumType.STRING)
     var role: Role

@@ -11,13 +11,15 @@ import org.springframework.web.client.RestClient
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
+import pl.edu.pk.hms.users.details.dao.UserDetailsRepository
 
 @Lazy
 @Component
 class WebClient(
     @Autowired val restClient: RestClient,
     @Autowired val passwordEncoder: PasswordEncoder,
-    @Autowired val userRepository: UserRepository
+    @Autowired val userRepository: UserRepository,
+    @Autowired val userDetailsRepository: UserDetailsRepository
 ) {
 
     private val authenticationApi = AuthenticationApi(restClient)

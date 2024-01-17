@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import pl.edu.pk.hms.users.User
+import pl.edu.pk.hms.users.details.api.dto.NotificationsPreferencesDto
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsPatchRequest
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsResponse
 import testutils.IntegrationTest
@@ -41,7 +42,10 @@ class UserDetailsIntegrationTest(
     fun `should update user details`() {
         webClient.asAuthenticatedUser(user.email, password) { token ->
             // when
-            val request = UserDetailsPatchRequest(email = "new_address@mail.com", phoneNumber = null)
+            val request = UserDetailsPatchRequest(
+                email = "new_address@mail.com", phoneNumber = null,
+                notificationsPreferences = NotificationsPreferencesDto()
+            )
             val response = webClient.patch(token, "/api/user", request, UserDetailsResponse::class.java)
 
             // then

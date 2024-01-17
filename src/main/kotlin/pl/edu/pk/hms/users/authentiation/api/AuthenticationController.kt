@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.pk.hms.users.authentiation.AuthenticationService
+import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationRequest
+import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationResponse
+import pl.edu.pk.hms.users.authentiation.api.dto.RegisterRequest
 
 @RestController
 @RequestMapping("/api/")

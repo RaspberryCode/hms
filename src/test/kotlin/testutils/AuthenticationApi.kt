@@ -2,9 +2,9 @@ package testutils
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestClient
-import pl.edu.pk.hms.users.authentiation.api.AuthenticationRequest
-import pl.edu.pk.hms.users.authentiation.api.AuthenticationResponse
-import pl.edu.pk.hms.users.authentiation.api.RegisterRequest
+import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationRequest
+import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationResponse
+import pl.edu.pk.hms.users.authentiation.api.dto.RegisterRequest
 
 class AuthenticationApi(private val restClient: RestClient) {
 
