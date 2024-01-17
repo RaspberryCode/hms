@@ -13,7 +13,7 @@ import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
 import pl.edu.pk.hms.users.details.dao.UserPreferences
 import pl.edu.pk.hms.users.details.dao.UserProfile
-import pl.edu.pk.hms.users.details.dao.UserDetailsRepository
+import pl.edu.pk.hms.users.details.dao.UserProfilesRepository
 
 @Lazy
 @Component
@@ -21,7 +21,7 @@ class WebClient(
     @Autowired val restClient: RestClient,
     @Autowired val passwordEncoder: PasswordEncoder,
     @Autowired val userRepository: UserRepository,
-    @Autowired val userDetailsRepository: UserDetailsRepository
+    @Autowired val userProfilesRepository: UserProfilesRepository
 ) {
 
     private val authenticationApi = AuthenticationApi(restClient)

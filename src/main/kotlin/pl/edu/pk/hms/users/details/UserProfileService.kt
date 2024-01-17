@@ -3,28 +3,28 @@ package pl.edu.pk.hms.users.details
 import org.springframework.stereotype.Service
 import pl.edu.pk.hms.users.details.api.dto.UserPreferencesDto
 import pl.edu.pk.hms.users.details.dao.UserProfile
-import pl.edu.pk.hms.users.details.dao.UserDetailsRepository
+import pl.edu.pk.hms.users.details.dao.UserProfilesRepository
+import java.util.*
 
 @Service
-class UserDetailsPatchService(private val userDetailsRepository: UserDetailsRepository) {
-    fun getUserDetails(userId: Long): UserProfile {
-        return userDetailsRepository.findById(userId).orElseThrow()
-    }
+class UserProfileService(private val userProfilesRepository: UserProfilesRepository) {
+    fun getUserProfile(userId: Long): Optional<UserProfile> =
+        userProfilesRepository.findById(userId)
 
-    fun updateUserDetails(
+    fun updateUserProfile(
         userId: Long,
         phoneNumber: String?,
         email: String?,
         notificationsPreferences: UserPreferencesDto?
     ): UserProfile {
-        return userDetailsRepository.findById(userId)
+        return userProfilesRepository.findById(userId)
             .orElseThrow()
             .apply {
                 this.email = email ?: this.email
                 this.phoneNumber = phoneNumber ?: this.phoneNumber
                 this.preferences = notificationsPreferences?.toDomain() ?: this.preferences
             }.apply {
-                userDetailsRepository.save(this)
+                userProfilesRepository.save(this)
             }
     }
 }
