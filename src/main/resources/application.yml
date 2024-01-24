@@ -5,5 +5,23 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: placeholder
+    password: placeholder
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+sms:
+  gateway:
+    credentials:
+      username: "placeholder"
+      password: "placeholder"
+    url: "placeholder"
+    path: "placeholder"
 
 secretKey: b6CR/HCJIMVMFCYYyZWsylw/IVi0kWrM9DzKOJ3z7wI3SHx1MjGkZzMVOLOLd3a15REumlt8nr3nfe1jEIW1RO0EGxSXzI2Jl+rjB0Bx4oQjvAHg0HOOUa56m5LnGrzZEfSixTHu8jX0m2aflglW+jcJT75R9y1dkPNQIh7xV1i8X38HdWVglksdg8lITofLF92OU9Bg44vB08GqyF0TwuJxxytSFk3ExEjZbRkzZt8BugoONm4N1sbXKdqNw+4SgId3ivG4I7GiNdv97gbxEhj7hKoPlLoJ/xmQpdpuMoXpUaAEtZw0jYN7z26a+VbMS2qAeG9sFdfe2FDyVDYsgLpm9s6SmR2RgCaBUbgbetP8/N9+x8jnDIPaAGgFP/8KA7Z4RJrz99hY0Dqgl108selZZcMMaKqoVJZvS5xhzQgrGJI95QrA5jcbjcRSUzjuQGDOKqguCsu4eaq1hr2FfsUh+4mo3dmJZxabbtx6ZKARfaGnTzaqZj/CvgC5WcU8aGavI4iRORhqNCTruVzNqIzlsYwybfKUkCDBTl/ReWmXLr+nZCBiNL7nPhdyeZ6WRolWieCAFbnvZt6J+Ce8t/UtSSYOohwRVRTZ41G2u5/pxg3NplvxZaTxhiW6R8CPt8Y2ukm+8tuHFFuy2HdP/+LjLjek0T35IW8YwSPneeg7/WhpFPhczeR3PjeVeYHv

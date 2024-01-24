@@ -1,13 +1,15 @@
 package pl.edu.pk.hms.users.details
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import pl.edu.pk.hms.happenings.District
 import pl.edu.pk.hms.users.User
-import pl.edu.pk.hms.users.details.api.dto.UserPreferencesDto
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsPatchRequest
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsResponse
+import pl.edu.pk.hms.users.details.api.dto.UserPreferencesDto
 import testutils.IntegrationTest
 import testutils.WebClient
 
@@ -37,6 +39,7 @@ class UserProfileIntegrationTest(
             assertEquals(user.profile?.phoneNumber, response.body!!.phoneNumber)
             assertEquals(user.profile?.preferences?.emailNotifications, response.body!!.preferences.email)
             assertEquals(user.profile?.preferences?.smsNotifications, response.body!!.preferences.sms)
+            assertEquals(user.profile?.districts, response.body!!.districts)
         }
     }
 
@@ -47,7 +50,8 @@ class UserProfileIntegrationTest(
             val request = UserDetailsPatchRequest(
                 email = "new_address@mail.com",
                 phoneNumber = null,
-                notificationsPreferences = UserPreferencesDto(email = true, sms = true, push = true)
+                notificationsPreferences = UserPreferencesDto(email = true, sms = true, push = true),
+                districts = setOf(District.CZYZYNY, District.KROWODRZA)
             )
             val response = webClient.patch(token, "/api/user", request, UserDetailsResponse::class.java)
 
@@ -58,6 +62,7 @@ class UserProfileIntegrationTest(
             assertTrue(response.body!!.preferences.push)
             assertTrue(response.body!!.preferences.email)
             assertTrue(response.body!!.preferences.sms)
+            assertThat(response.body!!.districts).containsExactlyInAnyOrder(District.CZYZYNY, District.KROWODRZA)
         }
     }
 }

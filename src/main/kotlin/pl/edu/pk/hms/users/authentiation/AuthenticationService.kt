@@ -1,11 +1,13 @@
 package pl.edu.pk.hms.users.authentiation
 
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.edu.pk.hms.config.JwtService
+import pl.edu.pk.hms.notifications.handlers.events.UserRegistered
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.api.dto.AuthenticationRequest
@@ -20,7 +22,8 @@ class AuthenticationService(
     private val jwtService: JwtService,
     private val userRepository: UserRepository,
     private val authenticationManager: AuthenticationManager,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
     fun getUsername(): String {
         return SecurityContextHolder.getContext().authentication.name ?: NO_USER
@@ -45,11 +48,13 @@ class AuthenticationService(
             email = email,
             phoneNumber = phoneNumber,
             preferences = userPreferences ?: UserPreferences(),
-            user = user
+            user = user,
+            districts = emptySet()
         )
         user.profile = userProfile
-        userRepository.save(user)
-        return jwtService.generate(user)
+        val savedUser = userRepository.save(user)
+        eventPublisher.publishEvent(UserRegistered(this, savedUser.id!!))
+        return jwtService.generate(savedUser)
     }
 
     fun login(request: AuthenticationRequest): String {

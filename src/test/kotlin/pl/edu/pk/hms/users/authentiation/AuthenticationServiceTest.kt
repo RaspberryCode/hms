@@ -11,11 +11,14 @@ import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.pk.hms.config.JwtService
+import pl.edu.pk.hms.notifications.handlers.events.UserRegistered
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
@@ -35,6 +38,9 @@ class AuthenticationServiceTest {
     @Mock
     lateinit var passwordEncoder: PasswordEncoder
 
+    @Spy
+    lateinit var eventPublisher: ApplicationEventPublisher
+
     @InjectMocks
     lateinit var authenticationService: AuthenticationService
 
@@ -49,8 +55,10 @@ class AuthenticationServiceTest {
         val email = "example@example.com"
         val password = "password"
         whenever(userRepository.existsByProfile_Email(anyString())).thenReturn(false)
+        whenever(userRepository.save(any<User>())).thenReturn(User().apply { id = 1L })
         whenever(jwtService.generate(any(), any())).thenReturn("token")
         whenever(passwordEncoder.encode(anyString())).thenReturn("encodedPassword")
+        doNothing().whenever(eventPublisher).publishEvent(any())
 
         // when
         authenticationService.register(
@@ -63,6 +71,7 @@ class AuthenticationServiceTest {
         // then
         val userCaptor = argumentCaptor<User>()
         verify(userRepository).save(userCaptor.capture())
+        verify(eventPublisher).publishEvent(any<UserRegistered>())
         assertNotEquals(password, userCaptor.firstValue.password, "Password should not be stored in plain text.")
     }
 
@@ -72,8 +81,10 @@ class AuthenticationServiceTest {
         val email = "example@example.com"
         val password = "password"
         whenever(userRepository.existsByProfile_Email(anyString())).thenReturn(false)
+        whenever(userRepository.save(any<User>())).thenReturn(User().apply { id = 1L })
         whenever(jwtService.generate(any(), any())).thenReturn("token")
         whenever(passwordEncoder.encode(anyString())).thenReturn("encodedPassword")
+        doNothing().whenever(eventPublisher).publishEvent(any())
 
         // when
         authenticationService.register(
@@ -86,6 +97,7 @@ class AuthenticationServiceTest {
         // then
         val userCaptor = argumentCaptor<User>()
         verify(userRepository).save(userCaptor.capture())
+        verify(eventPublisher).publishEvent(any<UserRegistered>())
         assertEquals(Role.USER, userCaptor.firstValue.role, "Only user with role USER should be allowed to register.")
     }
 

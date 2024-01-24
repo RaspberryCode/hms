@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.annotations.IsUser
-import pl.edu.pk.hms.users.details.UserDetailsPatchService
+import pl.edu.pk.hms.users.details.UserProfileService
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsPatchRequest
 import pl.edu.pk.hms.users.details.api.dto.UserDetailsResponse
 
 @RestController
 @RequestMapping("/api/user")
 @Tag(name = "User Details")
-class UserDetailsController(private val userDetailsPatchService: UserDetailsPatchService) {
+class UserDetailsController(private val userProfileService: UserProfileService) {
 
     @GetMapping
     @IsUser
@@ -34,7 +34,9 @@ class UserDetailsController(private val userDetailsPatchService: UserDetailsPatc
     )
     fun getDetails(authentication: Authentication): ResponseEntity<UserDetailsResponse> {
         val user = authentication.principal as User
-        val userDetails = userDetailsPatchService.getUserDetails(user.id!!)
+        require(user.id != null) { "Problem with granting access to user details" }
+        val userDetails = userProfileService.getUserProfile(user.id!!)
+            .orElseThrow()
 
         return ResponseEntity.ok(UserDetailsResponse.fromDomain(userDetails))
     }
@@ -56,8 +58,12 @@ class UserDetailsController(private val userDetailsPatchService: UserDetailsPatc
         val user = authentication.principal as User
         val userId = checkNotNull(user.id) { "Problem with granting access to user details" }
 
-        val updateUserDetails = userDetailsPatchService.updateUserDetails(
-            userId, request.phoneNumber, request.email, request.notificationsPreferences
+        val updateUserDetails = userProfileService.updateUserProfile(
+            userId = userId,
+            phoneNumber = request.phoneNumber,
+            email = request.email,
+            notificationsPreferences = request.notificationsPreferences,
+            districts = request.districts
         )
         return ResponseEntity.ok(UserDetailsResponse.fromDomain(updateUserDetails))
     }

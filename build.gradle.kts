@@ -42,6 +42,13 @@ object Versions {
     const val OPEN_API = "2.2.0"
     const val MOCKITO = "5.8.0"
     const val MOCKITO_KOTLIN = "5.2.1"
+    const val SPRING_CLOUD = "2023.0.0"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.SPRING_CLOUD}")
+    }
 }
 
 dependencies {
@@ -57,6 +64,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 
     compileOnly("org.projectlombok:lombok")
 
@@ -74,7 +83,6 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.mockito:mockito-core:${Versions.MOCKITO}")
     testImplementation("org.mockito.kotlin:mockito-kotlin:${Versions.MOCKITO_KOTLIN}")
-
 }
 
 tasks.withType<KotlinCompile> {

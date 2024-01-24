@@ -4,8 +4,10 @@ import jakarta.annotation.Generated
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import org.springframework.security.crypto.password.PasswordEncoder
+import pl.edu.pk.hms.happenings.District
 import pl.edu.pk.hms.users.Role
 import pl.edu.pk.hms.users.User
 import pl.edu.pk.hms.users.authentiation.dao.UserRepository
@@ -14,9 +16,10 @@ import pl.edu.pk.hms.users.details.dao.UserProfile
 
 @Generated
 @SpringBootApplication
-open class HappeningsManagementSystemApplication {
+@EnableFeignClients
+class HappeningsManagementSystemApplication {
     @Bean
-    open fun init(userRepository: UserRepository, passwordEncoder: PasswordEncoder): CommandLineRunner {
+    fun init(userRepository: UserRepository, passwordEncoder: PasswordEncoder): CommandLineRunner {
         return CommandLineRunner {
             val admin = User(
                 encryptedPassword = passwordEncoder.encode("admin"),
@@ -27,7 +30,8 @@ open class HappeningsManagementSystemApplication {
                 email = "admin@admin.com",
                 phoneNumber = "123456789",
                 preferences = UserPreferences(),
-                user = admin
+                user = admin,
+                districts = setOf(District.PRADNIK_BIALY)
             )
             admin.profile = adminProfile
             val user = User(
@@ -39,7 +43,8 @@ open class HappeningsManagementSystemApplication {
                 email = "user@user.com",
                 phoneNumber = "123456789",
                 preferences = UserPreferences(),
-                user = user
+                user = user,
+                districts = setOf(District.CZYZYNY)
             )
             user.profile = userProfile
             userRepository.saveAll(listOf(admin, user))

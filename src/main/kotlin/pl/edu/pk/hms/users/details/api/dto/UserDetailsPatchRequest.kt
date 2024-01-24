@@ -1,12 +1,10 @@
 package pl.edu.pk.hms.users.details.api.dto
 
 import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
+import pl.edu.pk.hms.happenings.District
 
 data class UserDetailsPatchRequest(
-    @field:NotBlank(message = "Email cannot be blank")
     @field:Email(message = "Email should be valid")
     val email: String,
     @field:Pattern(
@@ -14,6 +12,6 @@ data class UserDetailsPatchRequest(
         message = "Phone number should be valid and contain country code (e.g. +48 for Poland)"
     )
     val phoneNumber: String?,
-    @NotNull(message = "Notifications preferences cannot be null")
-    val notificationsPreferences: UserPreferencesDto
+    val notificationsPreferences: UserPreferencesDto,
+    val districts: Set<District>
 )

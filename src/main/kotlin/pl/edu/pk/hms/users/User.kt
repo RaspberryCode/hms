@@ -22,7 +22,7 @@ open class User(
     @GeneratedValue
     var id: Long? = null,
     @Column(nullable = false)
-    var encryptedPassword: String,
+    private var encryptedPassword: String,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var role: Role,
