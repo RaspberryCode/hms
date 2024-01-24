@@ -42,7 +42,8 @@ class WebClient(
             user = user,
             phoneNumber = "123456789",
             email = "$userName@$userName.com",
-            preferences = UserPreferences()
+            preferences = UserPreferences(),
+            districts = emptySet()
         )
         user.profile = userProfile
         user = userRepository.save(user)

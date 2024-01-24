@@ -59,7 +59,11 @@ class UserDetailsController(private val userProfileService: UserProfileService) 
         val userId = checkNotNull(user.id) { "Problem with granting access to user details" }
 
         val updateUserDetails = userProfileService.updateUserProfile(
-            userId, request.phoneNumber, request.email, request.notificationsPreferences
+            userId = userId,
+            phoneNumber = request.phoneNumber,
+            email = request.email,
+            notificationsPreferences = request.notificationsPreferences,
+            districts = request.districts
         )
         return ResponseEntity.ok(UserDetailsResponse.fromDomain(updateUserDetails))
     }

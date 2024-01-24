@@ -1,11 +1,11 @@
 package pl.edu.pk.hms.notifications.sender
 
-import pl.edu.pk.hms.happenings.District
+import pl.edu.pk.hms.notifications.CommunicationChannel
 import pl.edu.pk.hms.notifications.Notification
+import pl.edu.pk.hms.users.details.dao.UserProfile
 
 interface NotificationSender {
 
-    fun sendToUser(notification: Notification, userId: Long)
-    fun sendToUsers(notification: Notification, usersId: Set<Long>)
-    fun broadcastToDistrict(notification: Notification, district: District)
+    fun communicationChannel(): CommunicationChannel
+    fun send(notification: Notification, user: UserProfile)
 }

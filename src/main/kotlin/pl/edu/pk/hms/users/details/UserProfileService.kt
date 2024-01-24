@@ -1,6 +1,7 @@
 package pl.edu.pk.hms.users.details
 
 import org.springframework.stereotype.Service
+import pl.edu.pk.hms.happenings.District
 import pl.edu.pk.hms.users.details.api.dto.UserPreferencesDto
 import pl.edu.pk.hms.users.details.dao.UserProfile
 import pl.edu.pk.hms.users.details.dao.UserProfilesRepository
@@ -15,7 +16,8 @@ class UserProfileService(private val userProfilesRepository: UserProfilesReposit
         userId: Long,
         phoneNumber: String?,
         email: String?,
-        notificationsPreferences: UserPreferencesDto?
+        notificationsPreferences: UserPreferencesDto?,
+        districts: Set<District>?
     ): UserProfile {
         return userProfilesRepository.findById(userId)
             .orElseThrow()
@@ -23,8 +25,13 @@ class UserProfileService(private val userProfilesRepository: UserProfilesReposit
                 this.email = email ?: this.email
                 this.phoneNumber = phoneNumber ?: this.phoneNumber
                 this.preferences = notificationsPreferences?.toDomain() ?: this.preferences
+                this.districts = districts ?: this.districts
             }.apply {
                 userProfilesRepository.save(this)
             }
+    }
+
+    fun getUsersByDistrict(district: District): Set<UserProfile> {
+        return userProfilesRepository.findByDistrictsContains(district)
     }
 }
